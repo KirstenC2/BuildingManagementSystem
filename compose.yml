@@ -23,6 +23,7 @@ services:
       SPRING_DATASOURCE_PASSWORD: password
     ports:
       - "8081:8080"
+      - "9091:9090"
   reservation-service:
     image: reservation-service
     build: ./reservation-service

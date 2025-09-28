@@ -1,0 +1,13 @@
+com/example/resource_service/grpc/ResourceServiceGrpc$ResourceServiceMethodDescriptorSupplier.class
+com/example/resource_service/grpc/ResourceServiceGrpc$AsyncService.class
+com/example/resource_service/grpc/ResourceServiceGrpc$MethodHandlers.class
+com/example/resource_service/grpc/ResourceServiceGrpc$ResourceServiceBlockingStub.class
+com/example/resource_service/grpc/ResourceServiceGrpc$ResourceServiceBaseDescriptorSupplier.class
+com/example/resource_service/grpc/ResourceServiceGrpc$2.class
+com/example/resource_service/grpc/ResourceServiceGrpc$ResourceServiceFutureStub.class
+com/example/resource_service/grpc/ResourceServiceGrpc$1.class
+com/example/resource_service/grpc/ResourceServiceGrpc$ResourceServiceFileDescriptorSupplier.class
+com/example/resource_service/grpc/ResourceServiceGrpc$3.class
+com/example/resource_service/grpc/ResourceServiceGrpc$ResourceServiceImplBase.class
+com/example/resource_service/grpc/ResourceServiceGrpc.class
+com/example/resource_service/grpc/ResourceServiceGrpc$ResourceServiceStub.class

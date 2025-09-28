@@ -1,5 +1,6 @@
 {
     "java.project.sourcePaths": [
         "reservation-service/src/main/java/com/example/reservation_service"
-    ]
+    ],
+    "java.configuration.updateBuildConfiguration": "interactive"
 }

@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package resourceservice;
+
+option java_multiple_files = true;
+option java_package = "com.example.reservation_service.grpc";
+option java_outer_classname = "ResourceServiceProto";
+
+service ResourceService {
+  rpc CheckAvailability(ResourceRequest) returns (ResourceResponse);
+}
+
+message ResourceRequest {
+  int64 resourceId = 1;
+  string tenantId = 2;
+}
+
+message ResourceResponse {
+  bool exists = 1;
+  bool available = 2;
+}
