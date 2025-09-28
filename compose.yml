@@ -1,0 +1,39 @@
+version: "3.9"
+services:
+  postgres-appointments:
+    image: postgres:15
+    container_name: postgres-appointments
+    restart: always
+    environment:
+      POSTGRES_DB: appointmentsdb
+      POSTGRES_USER: appointmentsuser
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+  resource-service:
+    image: resource-service
+    build: ./resource-service
+    depends_on:
+      - postgres-appointments
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-appointments:5432/appointmentsdb
+      SPRING_DATASOURCE_USERNAME: appointmentsuser
+      SPRING_DATASOURCE_PASSWORD: password
+    ports:
+      - "8081:8080"
+  reservation-service:
+    image: reservation-service
+    build: ./reservation-service
+    depends_on:
+      - postgres-appointments
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-appointments:5432/appointmentsdb
+      SPRING_DATASOURCE_USERNAME: appointmentsuser
+      SPRING_DATASOURCE_PASSWORD: password
+    ports:
+      - "8082:8080"
+
+volumes:
+  postgres-data:
