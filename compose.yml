@@ -23,12 +23,13 @@ services:
       SPRING_DATASOURCE_PASSWORD: password
     ports:
       - "8081:8080"
-      - "9091:9090"
+      - "9095:9095"
   reservation-service:
     image: reservation-service
     build: ./reservation-service
     depends_on:
       - postgres-appointments
+      - resource-service
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-appointments:5432/appointmentsdb
       SPRING_DATASOURCE_USERNAME: appointmentsuser

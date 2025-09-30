@@ -2,39 +2,49 @@ package com.example.reservation_service.grpc;
 
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
-import org.springframework.stereotype.Service;
-import com.example.reservation_service.grpc.ResourceRequest;
-import com.example.reservation_service.grpc.ResourceResponse;
-import com.example.reservation_service.grpc.ResourceServiceGrpc;
+import net.devh.boot.grpc.client.inject.GrpcClient;
 
-@Service
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+import com.example.resource_service.grpc.ResourceServiceGrpc;
+import com.example.resource_service.grpc.ResourceRequest;
+import com.example.resource_service.grpc.ResourceResponse;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+
+@Component
 public class ResourceGrpcClient {
 
-    private final ResourceServiceGrpc.ResourceServiceBlockingStub stub;
+    private ManagedChannel channel;
+    private ResourceServiceGrpc.ResourceServiceBlockingStub stub;
 
-    public ResourceGrpcClient() {
-        ManagedChannel channel = ManagedChannelBuilder
-                // 1️⃣ 建立 gRPC channel - 這邊是docker service name
-                // 開給reservation-service 連結grpc port
-                .forAddress("resource-service", 9090)
+    @Value("${grpc.client.resource-service.host:localhost}")
+    private String host;
+
+    @Value("${grpc.client.resource-service.port:9095}")
+    private int port;
+
+    @PostConstruct
+    public void init() {
+        this.channel = ManagedChannelBuilder.forAddress(host, port)
                 .usePlaintext()
                 .build();
-
-        stub = ResourceServiceGrpc.newBlockingStub(channel);
+        this.stub = ResourceServiceGrpc.newBlockingStub(channel);
     }
 
     public ResourceResponse checkAvailability(Long resourceId, String tenantId) {
-        // 1️⃣ 建立 gRPC request
         ResourceRequest request = ResourceRequest.newBuilder()
                 .setResourceId(resourceId)
                 .setTenantId(tenantId)
                 .build();
-    
-        // 2️⃣ 用 stub 呼叫 gRPC server
-        ResourceResponse response = stub.checkAvailability(request);
-    
-        // 3️⃣ 回傳 server response
-        return response;
+        return stub.checkAvailability(request);
     }
-    
+
+    @PreDestroy
+    public void shutdown() {
+        if (channel != null) {
+            channel.shutdown();
+        }
+    }
 }

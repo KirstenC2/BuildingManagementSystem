@@ -1,20 +1,26 @@
 syntax = "proto3";
 
+package resourceservice;
+
 option java_multiple_files = true;
 option java_package = "com.example.resource_service.grpc";
 option java_outer_classname = "ResourceServiceProto";
 
 service ResourceService {
   rpc getResource (ResourceRequest) returns (ResourceResponse) {}
+  rpc checkAvailability(ResourceRequest) returns (ResourceResponse);
 }
 
 message ResourceRequest {
-  string id = 1;
+  int64 resourceId = 1;
+  string tenantId = 2;
 }
 
 message ResourceResponse {
-  string id = 1;
+  int64 id = 1;
   string name = 2;
   string description = 3;
-  // Add more fields as needed
+  bool exists = 4;
+  bool available = 5;
+  bool active = 6;
 }
